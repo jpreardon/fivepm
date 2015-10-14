@@ -29,6 +29,25 @@ function pickRandomProperty(obj) {
     return result;
 }
 
+function pickLanguage(country) {
+	var result;
+	// Find out which language we want to use
+	var language = countrytolang[country];
+	// Check to make sure we have an actionable result
+	if (typeof language == 'undefined') {
+		result = pickRandomProperty(cheersdata).trim();
+	} else {
+		language = language.trim();
+		if (typeof cheersdata[language] == "undefined") {
+			result = pickRandomProperty(cheersdata).trim();
+		} else {
+			result = language;
+		}
+	}
+	// Return the result
+	return result;
+}
+
 
 $(document).ready( function () {
 	var timeNow = new Date();
@@ -41,15 +60,15 @@ $(document).ready( function () {
 	var country;
 	if (-12 <= currentTimeZoneOffsetInHours || currentTimeZoneOffsetInHours <= -1) {
 		userTZ = userTZ.replace("-","");
-		userTZ = "-0" + userTZ;	
+		userTZ = "-0" + userTZ;
 	} else if (0 <= currentTimeZoneOffsetInHours || currentTimeZoneOffsetInHours <= 9) {
-		userTZ = "0" + userTZ;	
+		userTZ = "0" + userTZ;
 	}
 	countries = timezones[targetTZ];
 	country = countries[getRandomInt(0,countries.length-1)].trim();
 	$('#five-pm').html('<a href="https://www.google.com/maps/preview#!q=' + country + '">' + country +'</a>');
 
-	var lang = pickRandomProperty(cheersdata).trim();
+	var lang = pickLanguage(country).trim();
 
 	var cheers = cheersdata[lang];
 	var cheersString = $('<div id="saycheers">');
