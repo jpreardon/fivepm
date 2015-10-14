@@ -29,25 +29,23 @@ function pickRandomProperty(obj) {
     return result;
 }
 
-function pickLanguage(country) {
+function pickCheers(country) {
 	var result;
 	// Find out which language we want to use
 	var language = countrytolang[country];
 	// Check to make sure we have an actionable result
-	if (typeof language == 'undefined') {
-		result = pickRandomProperty(cheersdata).trim();
+	if (typeof language == 'undefined' || typeof cheersdata[language.trim()] == "undefined") {
+		language = pickRandomProperty(cheersdata).trim();
 	} else {
 		language = language.trim();
-		if (typeof cheersdata[language] == "undefined") {
-			result = pickRandomProperty(cheersdata).trim();
-		} else {
-			result = language;
-		}
 	}
-	// Return the result
-	return result;
-}
 
+	// Add language for rendering
+	var cheers = cheersdata[language];
+	cheers.unshift(language);
+	// Return the resulting cheers
+	return cheers;
+}
 
 $(document).ready( function () {
 	var timeNow = new Date();
@@ -68,13 +66,11 @@ $(document).ready( function () {
 	country = countries[getRandomInt(0,countries.length-1)].trim();
 	$('#five-pm').html('<a href="https://www.google.com/maps/preview#!q=' + country + '">' + country +'</a>');
 
-	var lang = pickLanguage(country).trim();
-
-	var cheers = cheersdata[lang];
+	var cheers = pickCheers(country);
 	var cheersString = $('<div id="saycheers">');
-	cheersString.append('<h3>' + lang + ":" + '</h3>');
-	cheersString.append('<p><h4>' + cheers[0] + '!</h4></p>');
-	cheersString.append('<p><h4>(' + cheers[1] + ')</h4></p>');
+	cheersString.append('<h3>' + cheers[0] + ":" + '</h3>');
+	cheersString.append('<p><h4>' + cheers[1] + '!</h4></p>');
+	cheersString.append('<p><h4>(' + cheers[2] + ')</h4></p>');
 
 	$('#cheers').append(cheersString);
 
