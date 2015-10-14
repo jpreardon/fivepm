@@ -74,14 +74,4 @@ $(document).ready( function () {
 
 	$('#cheers').append(cheersString);
 
-	$('#emily-1').click(function () {
-		ga('send', 'event', 'emily-link', 'click', 'link-brown-bag');
-	});
-	$('#emily-2').click(function () {
-		ga('send', 'event', 'emily-link', 'click', 'link-welcome-sign');
-	});
-	$('#emily-3').click(function () {
-		ga('send', 'event', 'emily-link', 'click', 'link-earrings');
-	});
-
 });
